@@ -1,0 +1,3 @@
+[submodule "kqoauth"]
+	path = kqoauth
+	url = git://gitorious.org/kqoauth/kqoauth.git
