@@ -46,7 +46,7 @@ SOURCES += main.cpp \
     dblistmodel.cpp \
     dbmetadata.cpp
 
-INCLUDEPATH += ../kqoauth/src
+INCLUDEPATH += kqoauth/src
 
 LIBS += -lqjson -lcontentaction
 
