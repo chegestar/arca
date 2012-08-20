@@ -37,12 +37,12 @@ SOURCES += main.cpp \
     articlepublishingclient.cpp \
     dbsession.cpp \
     dbrestclient.cpp \
-    ../kqoauth/src/kqoauthutils.cpp \
-    ../kqoauth/src/kqoauthrequest.cpp \
-    ../kqoauth/src/kqoauthrequest_xauth.cpp \
-    ../kqoauth/src/kqoauthrequest_1.cpp \
-    ../kqoauth/src/kqoauthmanager.cpp \
-    ../kqoauth/src/kqoauthauthreplyserver.cpp \
+    kqoauth/src/kqoauthutils.cpp \
+    kqoauth/src/kqoauthrequest.cpp \
+    kqoauth/src/kqoauthrequest_xauth.cpp \
+    kqoauth/src/kqoauthrequest_1.cpp \
+    kqoauth/src/kqoauthmanager.cpp \
+    kqoauth/src/kqoauthauthreplyserver.cpp \
     dblistmodel.cpp \
     dbmetadata.cpp
 
@@ -68,16 +68,17 @@ HEADERS += \
     articlepublishingclient.h \
     dbsession.h \
     dbrestclient.h \
-    ../kqoauth/src/kqoauthutils.h \
-    ../kqoauth/src/kqoauthrequest.h \
-    ../kqoauth/src/kqoauthrequest_xauth.h \
-    ../kqoauth/src/kqoauthrequest_xauth_p.h \
-    ../kqoauth/src/kqoauthrequest_p.h \
-    ../kqoauth/src/kqoauthrequest_1.h \
-    ../kqoauth/src/kqoauthmanager.h \
-    ../kqoauth/src/kqoauthmanager_p.h \
-    ../kqoauth/src/kqoauthglobals.h \
-    ../kqoauth/src/kqoauthauthreplyserver.h \
-    ../kqoauth/src/kqoauthauthreplyserver_p.h \
+    kqoauth/src/kqoauthutils.h \
+    kqoauth/src/kqoauthrequest.h \
+    kqoauth/src/kqoauthrequest_xauth.h \
+    kqoauth/src/kqoauthrequest_xauth_p.h \
+    kqoauth/src/kqoauthrequest_p.h \
+    kqoauth/src/kqoauthrequest_1.h \
+    kqoauth/src/kqoauthmanager.h \
+    kqoauth/src/kqoauthmanager_p.h \
+    kqoauth/src/kqoauthglobals.h \
+    kqoauth/src/kqoauthauthreplyserver.h \
+    kqoauth/src/kqoauthauthreplyserver_p.h \
     dblistmodel.h \
-    dbmetadata.h
+    dbmetadata.h \
+    apikeys.h

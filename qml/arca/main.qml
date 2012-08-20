@@ -44,6 +44,13 @@ PageStackWindow {
         titleText: "Error"
     }
 
+    QueryDialog {
+        id: welcomeDialog
+        acceptButtonText: "OK"
+        message: "Welcome: " + param
+        titleText: "Arca"
+    }
+
     Connections {
         target: restClient
 
@@ -54,8 +61,10 @@ PageStackWindow {
                 restClient.loadMetadata("/")
             } else {
                 console.log("need to log in")
-                mainPage.state = "logging in"
-                mainPage.linkSheet.open()
+                //mainPage.state = "logging in"
+                //mainPage.linkSheet.open()
+                welcomeDialog.open()
+                restClient.requestToken()
             }
         }
 

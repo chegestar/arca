@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QSettings>
 
-const int kDBDropboxAPIVersion = 0;
+const int kDBDropboxAPIVersion = 1;
 extern const QString kDBDropboxAPIHost;
 extern const QString kDBDropboxAPIContentHost;
 

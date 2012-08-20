@@ -4,6 +4,7 @@
 #include "qmlapplicationviewer.h"
 #include "dbsession.h"
 #include "dbrestclient.h"
+#include "apikeys.h"
 
 QTM_USE_NAMESPACE
 
@@ -20,11 +21,15 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QDeclarativeContext *context = engine->rootContext();
 
     DBSession session;
-    session.setConsumerKey("fsw9qoji9g19ojs");
-    session.setConsumerSecret("8qdrtlmdcxdf3fe");
+    session.setConsumerKey(DROPBOX_APP_KEY);
+    session.setConsumerSecret(DROPBOX_APP_SECRET);
 
+    // Have the REST client visible in the QML
     DBRestClient restClient(session);
     context->setContextProperty("restClient", &restClient);
+
+    // TESTING
+    context->setContextProperty("param", QString(argv[1]));
 
     // TESTING
     qDebug() << "temp dir: " << QDir::tempPath();

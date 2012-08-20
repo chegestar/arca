@@ -1,5 +1,6 @@
 #include "dbrestclient.h"
 #include <QtNetwork>
+#include <QDesktopServices>
 //#include <QByteArray>
 #include "kqoauthmanager.h"
 #include <qjson/parser.h>
@@ -16,6 +17,7 @@ DBRestClient::DBRestClient(DBSession &session, QObject *parent) :
 {
     manager = new KQOAuthManager(this);
     connect(manager, SIGNAL(requestReady(QByteArray)), SLOT(requestReady(QByteArray)));
+    connect(manager, SIGNAL(temporaryTokenReceived(QString, QString)), SLOT(temporaryTokenReceived(QString, QString)));
 
     req = new KQOAuthRequest(this);
     req->setEnableDebugOutput(true);
@@ -52,12 +54,17 @@ void DBRestClient::openNetworkSession()
     }
 }
 
-void DBRestClient::login(const QString &email, const QString &password)
+//void DBRestClient::login(const QString &email, const QString &password)
+//{
+//    KQOAuthParameters params;
+//    params.insert("email", email);
+//    params.insert("password", password);
+//    executeRequest(kDBProtocolHTTPS, kDBDropboxAPIHost, "/token", &params, KQOAuthRequest::POST, KQOAuthRequest::TemporaryCredentials);
+//}
+
+void DBRestClient::requestToken()
 {
-    KQOAuthParameters params;
-    params.insert("email", email);
-    params.insert("password", password);
-    executeRequest(kDBProtocolHTTPS, kDBDropboxAPIHost, "/token", &params, KQOAuthRequest::POST, KQOAuthRequest::TemporaryCredentials);
+    executeRequest(kDBProtocolHTTPS, kDBDropboxAPIHost, "/oauth/request_token", 0, KQOAuthRequest::POST, KQOAuthRequest::TemporaryCredentials);
 }
 
 void DBRestClient::loadFile(const QString &path)
@@ -142,7 +149,33 @@ void DBRestClient::requestReady(QByteArray networkReply)
             file.write(networkReply);
             emit loadedFile(networkReply);
         }
+        else if (replyPath.startsWith("/oauth/request_token"))
+        {
+            // Open the web browser with the token to get user authorisation
+            QUrl url("https://www.dropbox.com/1/oauth/authorize");
+            QList<QPair<QString, QString> > queryItems;
+            queryItems.append(QPair<QString, QString>("oauth_token", _oauthToken));
+            queryItems.append(QPair<QString, QString>("oauth_callback", "arca://localhost/oauth_callback"));
+            url.setQueryItems(queryItems);
+            QDesktopServices::openUrl(url);
+        }
     }
+}
+
+//void DBRestClient::receivedToken(QString oauth_token, QString oauth_token_secret)
+//{
+//    int foo = 0;
+//}
+
+void DBRestClient::temporaryTokenReceived(QString oauth_token, QString oauth_token_secret)
+{
+    _oauthToken = oauth_token;
+    _oauthTokenSecret = oauth_token_secret;
+}
+
+void DBRestClient::accessTokenCallback(const QUrl &url)
+{
+    qDebug() << url;
 }
 
 void DBRestClient::showFile()
@@ -199,12 +232,12 @@ void DBRestClient::executeRequest(const QString &protocol,
     }
 
     KQOAuthParameters additionalParams;
-    if (!path.startsWith("/files"))
-    {
-        additionalParams.insert("status_in_response", "true");
-        _statusInResponse = true;
-    }
-    else
+//    if (!path.startsWith("/files"))
+//    {
+//        additionalParams.insert("status_in_response", "true");
+//        _statusInResponse = true;
+//    }
+//    else
         _statusInResponse = false;
 
     if (params)

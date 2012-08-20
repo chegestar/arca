@@ -33,7 +33,9 @@ signals:
 public slots:
     void openNetworkSession();
 
-    void login(const QString &email, const QString &password);
+//    void login(const QString &email, const QString &password);
+
+    void requestToken();
 
     void loadFile(const QString &path);
 
@@ -42,6 +44,12 @@ public slots:
     void loadAccountInfo();
 
     void requestReady(QByteArray networkReply);
+
+//    void receivedToken(QString oauth_token, QString oauth_token_secret);
+
+    void temporaryTokenReceived(QString oauth_token, QString oauth_token_secret);
+
+    void accessTokenCallback(const QUrl &url);
 
     // TESTING
     void showFile();
@@ -59,6 +67,9 @@ private:
     QString _filePath;
 
     QString _root;
+
+    QString _oauthToken;
+    QString _oauthTokenSecret;
 
     void executeRequest(const QString &protocol,
                         const QString &host,
